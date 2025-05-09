@@ -8,7 +8,7 @@ export default function ComingSoonPage() {
     <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-blue-900 to-blue-800 text-white">
       <div className="container flex max-w-3xl flex-col items-center justify-center gap-8 px-4 py-16 text-center">
         <div className="w-full max-w-md mb-4">
-          <Image src="/images/logo.png" alt="GroWP Logo" width={400} height={150} className="mx-auto" priority />
+          <Image src="/images/logo.png" alt="GroWP Logo" width={350} height={120} className="mx-auto" priority />
         </div>
 
         <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl">Coming Soon</h1>
