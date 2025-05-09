@@ -13,11 +13,11 @@ export default function ComingSoonPage() {
 
         <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl">Coming Soon</h1>
         <p className="max-w-md text-xl text-blue-200">
-          We're working hard to bring you the best withdrawal plan for your financial future. GroWP - the withdrawal plan
-          that grows with you.
+          We're working hard to bring you the best withdrawal plan for your financial future. GroWP - the withdrawal
+          plan that grows with you.
         </p>
 
-        <Countdown targetDate="2024-12-31T00:00:00" />
+        <Countdown />
 
         <Features />
 

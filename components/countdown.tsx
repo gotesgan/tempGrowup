@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 
 interface CountdownProps {
-  targetDate: string
+  targetDate?: string // Make targetDate optional
 }
 
 export function Countdown({ targetDate }: CountdownProps) {
@@ -14,17 +14,32 @@ export function Countdown({ targetDate }: CountdownProps) {
     seconds: 0,
   })
   const [isExpired, setIsExpired] = useState(false)
+  const [nextMonthDate, setNextMonthDate] = useState("")
+
+  // Calculate the 1st of the next month
+  useEffect(() => {
+    const calculateNextMonth = () => {
+      const today = new Date()
+      // Get the 1st day of the next month
+      const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1)
+      return nextMonth.toISOString()
+    }
+
+    setNextMonthDate(calculateNextMonth())
+  }, [])
 
   useEffect(() => {
-    const target = new Date(targetDate).getTime()
+    if (!nextMonthDate) return
+
+    const target = new Date(nextMonthDate).getTime()
 
     const interval = setInterval(() => {
       const now = new Date().getTime()
       const difference = target - now
 
       if (difference <= 0) {
-        setIsExpired(true)
-        clearInterval(interval)
+        // If we've reached the target date, recalculate for the next month
+        setNextMonthDate(new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1).toISOString())
         return
       }
 
@@ -37,27 +52,38 @@ export function Countdown({ targetDate }: CountdownProps) {
     }, 1000)
 
     return () => clearInterval(interval)
-  }, [targetDate])
+  }, [nextMonthDate])
 
-  if (isExpired) {
-    return <div className="text-2xl font-bold">We're launching keep checking!</div>
+  // Format the date for display
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString)
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    })
   }
 
   return (
-    <div className="grid grid-cols-4 gap-4 text-center">
-      {[
-        { label: "Days", value: timeLeft.days },
-        { label: "Hours", value: timeLeft.hours },
-        { label: "Minutes", value: timeLeft.minutes },
-        { label: "Seconds", value: timeLeft.seconds },
-      ].map((item) => (
-        <div key={item.label} className="flex flex-col">
-          <div className="rounded-lg bg-blue-700 p-4 shadow-lg">
-            <span className="text-3xl font-bold">{item.value}</span>
+    <div className="flex flex-col items-center gap-4">
+      <h3 className="text-xl font-semibold text-blue-200">
+        Opening on {nextMonthDate ? formatDate(nextMonthDate) : "June 1st"}
+      </h3>
+      <div className="grid grid-cols-4 gap-4 text-center">
+        {[
+          { label: "Days", value: timeLeft.days },
+          { label: "Hours", value: timeLeft.hours },
+          { label: "Minutes", value: timeLeft.minutes },
+          { label: "Seconds", value: timeLeft.seconds },
+        ].map((item) => (
+          <div key={item.label} className="flex flex-col">
+            <div className="rounded-lg bg-blue-700 p-4 shadow-lg">
+              <span className="text-3xl font-bold">{item.value}</span>
+            </div>
+            <span className="mt-2 text-sm text-blue-300">{item.label}</span>
           </div>
-          <span className="mt-2 text-sm text-blue-300">{item.label}</span>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   )
 }
