@@ -16,7 +16,7 @@ export function Hero() {
         </h1>
 
         <p className="mb-8 text-xl text-gray-600 sm:text-2xl">
-          GroWP Invest - The withdrawal plan that grows with you. Secure deposits, flexible withdrawals, and guaranteed
+          GroWP Investment - The withdrawal plan that grows with you. Secure deposits, flexible withdrawals, and guaranteed
           growth for life.
         </p>
 
